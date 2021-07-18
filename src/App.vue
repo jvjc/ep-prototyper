@@ -1,34 +1,45 @@
 <template>
-  <img src="./assets/logo.png">
-  <div>
-    <p>
-      If Element Plus is successfully added to this project, you'll see an
-      <code v-text="'<el-button>'"></code>
-      below
-    </p>
-    <el-button type="primary">el-button</el-button>
-  </div>
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <Layout>
+    <router-view v-slot="{ Component }">
+      <transition name="el-fade-in">
+        <component :is="Component"/>
+      </transition>
+    </router-view>
+  </Layout>
 </template>
-
 <script>
-import HelloWorld from './components/HelloWorld.vue';
+import Layout from '@/components/layouts/Default.vue';
+import { useRoute } from 'vue-router';
 
 export default {
-  name: 'App',
+  setup() {
+    const route = useRoute();
+
+    console.log(route.meta?.layout);
+  },
   components: {
-    HelloWorld
+    Layout
   }
 };
 </script>
-
-<style>
-#app {
+<style lang="scss">
+body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+
+#nav {
+  padding: 30px;
+
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
 }
 </style>
